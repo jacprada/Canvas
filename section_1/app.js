@@ -34,16 +34,30 @@ function updateAll() {
   drawAll();
 }
 
+function ballReset() {
+  ballX = canvas.width / 2;
+  ballY = canvas.height / 2;
+}
+
 function moveAll() {
   ballX += ballSpeedX;
   ballY += ballSpeedY;
 
-  if(ballX > canvas.width || ballX < 0) {
+  if(ballX < 0) { // left
     ballSpeedX *=-1;
   }
 
-  if(ballY > canvas.height || ballY < 0) {
+  if(ballX > canvas.width) { // right
+    ballSpeedX *=-1;
+  }
+
+  if(ballY < 0) { // top
     ballSpeedY *=-1;
+  }
+
+  if(ballY > canvas.height) { // bottom
+    ballReset();
+    // ballSpeedY *=-1;
   }
 }
 
