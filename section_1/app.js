@@ -5,6 +5,7 @@ var ballSpeedY = 7;
 
 const PADDLE_WIDTH = 100;
 const PADDLE_THICKNESS = 10;
+const PADDLE_DIST_FROM_EDGE = 60;
 var paddleX = 400;
 
 var canvas, canvasContext;
@@ -57,14 +58,27 @@ function moveAll() {
 
   if(ballY > canvas.height) { // bottom
     ballReset();
-    // ballSpeedY *=-1;
   }
+
+  var paddleTopEdgeY    = canvas.height - PADDLE_DIST_FROM_EDGE;
+  var paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;
+  var paddleLeftEdgeX   = paddleX;
+  var paddleRightEdgeX  = paddleX + PADDLE_WIDTH;
+
+  if( ballY > paddleTopEdgeY &&     // below of top of paddle
+      ballY < paddleBottomEdgeY &&  // above bottom of paddle
+      ballX > paddleLeftEdgeX &&    // right of left side of paddle
+      ballX < paddleRightEdgeX ) {  // left of right side of paddle
+        ballSpeedY *= -1;
+        var centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
+        var ballDistFromPaddleCenterX = 
+      }    
 }
 
 function drawAll() {
   colorRect(0, 0, canvas.width, canvas.height, 'black'); // clear screen
   colorCircle(ballX, ballY, 10, 'red'); // draw ball
-  colorRect(paddleX, canvas.height - PADDLE_THICKNESS, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
+  colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
 }
 
 function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
